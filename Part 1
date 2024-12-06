@@ -1,1 +1,82 @@
+---
 
+### **Part 1: FAMU Campus Map Navigator**
+
+#### **Description:**
+In this part of the project, I will load data about buildings on the FAMU campus from a CSV file and display the names of the buildings. The focus is on reading from a file, storing the data in a vector, and displaying it to the user. This serves as the foundation for the map navigator, which will later include functionalities like calculating walking directions.
+
+---
+
+### **Features Implemented:**
+
+1. **File Reading:**
+   - The program reads building data from a CSV file (`locations.csv`), which includes the building name, latitude, and longitude.
+   - Each line in the CSV file contains information for one building, separated by commas.
+
+2. **Data Storage:**
+   - The program uses a `struct` to store the name, latitude, and longitude of each building.
+   - A `vector` of `Building` structs is used to hold all the building data dynamically.
+
+3. **Displaying Building Names:**
+   - The program iterates through the vector and displays the names of the buildings on the console.
+
+4. **Error Handling:**
+   - The program checks for potential issues while reading the file (e.g., invalid data or incorrect file format).
+
+---
+
+### **IPO Chart (Input, Process, Output)**
+
+1. **Input:**
+   - CSV file containing building data (`locations.csv`)
+
+2. **Process:**
+   - Read data from the CSV file
+   - Store the building data in a vector of `Building` structs
+   - Display the building names on the console
+
+3. **Output:**
+   - Display a list of building names from the campus
+
+---
+
+### **Pseudocode for Part 1**
+
+
+START
+    Define struct Building with fields: name, latitude, longitude
+    Declare a vector of Buildings
+
+    Function loadBuildingData(filename):
+        Open file "locations.csv"
+        If file is not open, print error message and return
+        Read and ignore the header line
+        While there are more lines in the file:
+            Read each line into a string
+            Split the line into building name, latitude, and longitude
+            Convert latitude and longitude to double
+            Store the data in the vector by pushing back a new Building object
+
+    Function displayBuildings():
+        For each building in the vector:
+            Print the building name
+
+    In main function:
+        Call loadBuildingData("locations.csv")
+        Call displayBuildings()
+
+END
+```
+
+---
+
+### **Code for Part 1:**
+https://codio.com/home/projects?sharedToken=7707b960-b548-4082-a9ac-7dce649d2a56
+
+
+---
+
+### Notes:
+- The code assumes that the CSV file is in the correct format and located in the same directory as the program.
+- I’ll need to handle error cases such as invalid file paths or missing data as part of later improvements.
+- The focus here is on reading the data and displaying it in a user-friendly format.
