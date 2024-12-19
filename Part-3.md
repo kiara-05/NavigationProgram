@@ -1,7 +1,7 @@
 # Project Part [.3]
 [//]: <> (Basic markdown syntax can be found here -https://www.markdownguide.org/basic-syntax/)
 [//]: <> (Copy this file and rename it based on the submission number, i.e., PART1.md. Remove all the comments and italisized text before submitting.)
-_In Part 2 of my FAMU Campus Map Navigator project, I am building upon the functionality from Part 1 by incorporating user interaction with a menu system using loops and switch statements. This phase allows the user to input their current location and destination, view a list of available buildings, and navigate through the program's options. The data for the buildings is loaded from a CSV file, and the program provides a user-friendly menu to interact with the campus map.
+_In Part 3 of my FAMU Campus Map Navigator project, I am building upon the functionality from Part 2 by updating the directions and adding actual routes.. This phase allows the user to input their current location and destination, view a list of available buildings, and navigate through the program's options. The data for the buildings is loaded from a CSV file, and the program provides a user-friendly menu to interact with the campus map.
 ._
 ## Table of Contents
 1. [Statement of Independent Effort](#statement-of-independent-effort)
