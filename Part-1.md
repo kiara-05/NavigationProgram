@@ -71,7 +71,77 @@ _https://lucid.app/lucidchart/e170fb0b-b05c-4bd8-98b5-099db3167f3a/view_
 ## Code
 
 _(https://codio.com/home/projects?sharedToken=c1e5ad80-e8f1-4130-99dc-e1520b497f49)_
+/*For Part one of my project I'm focusing on loading the data from locations.csv and filing it, I will do this 
+through vectors*/
 
+#include <iostream>
+#include <fstream> //handles file input and output
+#include <string> //for storing and manipulating building names and other textual data
+#include <sstream> //Used to seperate the  in my csv file into seperate values 
+#include <vector>// I chose vector over array incase I decide to expand on the project and add more builidings
+
+//Define the struct to hold the buildings data
+struct Building {
+    std::string name;
+    double latitude, longitude;
+
+};
+
+
+//Declare vector to store the buildings
+std::vector<Building> buildings;
+
+
+//Function to read from the csv file
+void loadBuildingData(const std::string& filename) {
+    std::ifstream file(filename);
+    std::string line;
+
+
+    std:: getline(file,line);
+
+
+    while (std::getline(file, line)) {
+        std::stringstream ss(line);
+        std::string name, latStr, lonStr;
+        double lat, lon;
+
+        // Read the building name, latitude, and longitude from each line
+        std::getline(ss, name, ',');
+        std::getline(ss, latStr, ',');
+        std::getline(ss, lonStr, ',');
+        
+        lat = std::stod(latStr);
+        lon = std::stod(lonStr);
+        
+        // This stores the information in the programs memory by creating a Building object and adding it to the vector
+        buildings.push_back({name, lat, lon});
+    }
+
+    file.close();
+
+}
+
+
+
+//Function to display the buildijng names
+void displayBuildings() {
+    std::cout << "Buildings on campus:\n";
+    for (const auto& building : buildings) {
+        std::cout << building.name << "\n";
+    }
+}
+//Load and display the building data in the main function 
+int main() {
+    //load
+    loadBuildingData("locations.csv");
+
+
+    //display
+    displayBuildings();
+
+    return 0;
+}
 ## User Manual
 
 [User Manual](GUIDE.md) <br/>
