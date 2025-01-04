@@ -93,6 +93,185 @@ START
 | 4      | View all available buildings                         | Option to view all buildings           | True (Buildings successfully loaded from CSV file)  | List of all building names loaded from the CSV file |
 ## Code
 _https://codio.com/home/projects?sharedToken=c1e5ad80-e8f1-4130-99dc-e1520b497f49._
+```text=
+/*For Part three  of my project I've updated the CSV file with directions, introduced a new struct and functions for handling directions, and 
+improved the menu system to interact with the user more effectively,also a lot of error handling added.*/
+
+#include <iostream>
+#include <fstream> //handles file input and output
+#include <string> //for storing and manipulating building names and other textual data
+#include <sstream> //Used to seperate the  in my csv file into seperate values 
+#include <vector>// I chose vector over array incase I decide to expand on the project and add more builidings
+
+//Define the struct to hold the buildings data
+struct Building {
+    std::string name;
+    double latitude, longitude;
+    std::string directions;
+
+};
+//Function for storing the route data
+struct Route {
+    std::string startBuilding;
+    std::string endBuilding;
+    double startLatitude;
+    double startLongitude;
+    double endLatitude;
+    double endLongitude;
+    std::string directions;
+};
+
+//Declare vector to store the buildings
+std::vector<Building> buildings;
+
+//Declare a vector to store the routes
+std::vector<Route> routes;
+
+
+//Function to read from the csv file and load routes
+void loadBuildingData(const std::string& directions) {
+    std::ifstream file(directions);//Attempt to open file
+    if (!file.is_open()) {
+        std::cerr << "Error: Could not open the file '" << directions << "'. Please check if it exists and is accessible.\n";
+        return;
+    //Part 2- Check if file was opened
+    
+    }
+    
+    std::string line
+    std::getline(file, line);//skips the header
+
+    while (std::getline(file, line)) {
+        std::stringstream ss(line);
+        std::string startBuilding, endBuilding, latStr, lonStr, directions;
+        double startLat, startLon, endLat, endLon;
+
+
+        // Read the building name, latitude, and longitude from each line
+        // Read the data from each row
+        std::getline(ss, startBuilding, ',');
+        std::getline(ss, endBuilding, ',');
+        std::getline(ss, latStr, ',');
+        std::getline(ss, lonStr, ',');
+        std::getline(ss, latStr, ','); // Read again for the end latitude and longitude
+        std::getline(ss, lonStr, ',');
+        std::getline(ss, directions, ','); //Part 3- Get the directions
+        
+        startLat = std::stod(latStr);
+        startLon = std::stod(lonStr);
+        endLat = std::stod(latStr); 
+        endLon = std::stod(lonStr);
+        
+        // This stores the information in the programs memory by creating a Building object and adding it to the vector, initialized building object
+        //buildings.push_back(Building {startBuilding, startLat, startLon, directions});
+        routes.push_back(Route{startBuilding, endBuilding, startLat, startLon, endLat, endLon, directions });
+
+    }
+    file.close();
+
+}
+
+
+
+//Function to display the building names
+void displayBuildings() {
+    std::cout << "Buildings on campus:\n";
+    for (const auto& building : buildings) {
+        std::cout << building.name << "\n";
+    }
+}
+
+//Part 2- Iplementing the menu 
+//Load and display the building data in the main function 
+int main() {
+    //load
+    loadBuildingData("directions.csv");
+
+
+    // Check if buildings were loaded successfully
+    if (buildings.empty()) {
+        std::cout << "No buildings were loaded.\n";
+        return 1;  // Exit if no buildings are loaded
+    }
+
+    int choice = 0;
+
+    do {
+        std::cout << "\nMenu: \n";
+        std::cout << "1. Enter your location and destination \n";
+        std::cout << "2. View all available buildings\n"; 
+        std::cout << "3. Exit\n";
+        std::cout << "Enter your choice: ";
+        
+        std::cin >> choice;
+        std::cin.ignore(); // To ignore leftover newline
+        
+
+    
+
+        switch (choice) {
+            case 1: {
+                std::string location, destination;
+                std::cout << "Enter your current location: ";
+                std::getline(std::cin, location);
+                std::cout << "Enter your destination: ";
+                std::getline(std::cin, destination);
+                //std::cout << "You are at " << location << " and your destination is " << destination << ".\n";(Removed this to added a directions feedback)
+               
+               bool routeFound = false;
+
+               for (const auto& route : routes) {        
+                    if (route.startBuilding == location && route.endBuilding == destination) {
+                                std::cout << "Directions from " << location << " to " << destination << ":\n";
+                                std::cout << route.directions << "\n";
+                                routeFound = true;
+                                break;         
+                    }
+                }
+
+                if (!routeFound) {
+                    std::cout << "Invalid location or destination.\n";
+                }
+                break;
+                
+            }
+            case 2:
+                //displayBuildings();
+                std::cout << "Buildings on campus :\n";
+                std::unordered_set<std::string> uniqueBuildings;
+
+            // Collect unique building names
+            for (const auto& route : routes) {
+                uniqueBuildings.insert(route.startBuilding);
+                uniqueBuildings.insert(route.endBuilding);
+            }
+
+            // Display unique building names
+            for (const auto& building : uniqueBuildings) {
+                std::cout << "- " << building << "\n";
+            }
+            break;
+
+            case 3:
+                std::cout << "Exiting the program...\n";
+                break;
+            
+            default:
+                std::cout << "Invalid choice. Please try again :/ \n";
+
+        }
+
+    } while (choice != 3);
+   
+
+    return 0;
+
+}
+
+//Adding a route structure to be able to give all the directions to the user
+```
+
+
 ## User Manual
 [User Manual](GUIDE.md) <br/>
 ## References
