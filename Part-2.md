@@ -84,6 +84,126 @@ _https://lucid.app/lucidchart/f6ded7ef-150e-4b9f-b179-e076d9374210/edit?viewport
 ## Code
 
 _https://codio.com/home/projects?sharedToken=c1e5ad80-e8f1-4130-99dc-e1520b497f49_
+```text=
+/*For Part two  of my project I'm adding feautures for user interaction in the Menu System,
+ using switch statements and loops*/
+
+#include <iostream>
+#include <fstream> //handles file input and output
+#include <string> //for storing and manipulating building names and other textual data
+#include <sstream> //Used to seperate the  in my csv file into seperate values 
+#include <vector>// I chose vector over array incase I decide to expand on the project and add more builidings
+
+//Define the struct to hold the buildings data
+struct Building {
+    std::string name;
+    double latitude, longitude;
+
+};
+
+
+//Declare vector to store the buildings
+std::vector<Building> buildings;
+
+
+//Function to read from the csv file
+void loadBuildingData(const std::string& filename) {
+    std::ifstream file(filename);//Attempt to open file
+
+    //Part 2- Check if file was opened
+    if (!file.is_open()) {
+        std::cerr << "Error: Could not open the file '" << filename << "'. Please check if it exists and is accessible.\n";
+        return;
+    }
+   
+   
+    std::string line;
+
+
+    std::getline(file, line);
+
+
+    while (std::getline(file, line)) {
+        std::stringstream ss(line);
+        std::string name, latStr, lonStr;
+        double lat, lon;
+
+        // Read the building name, latitude, and longitude from each line
+        std::getline(ss, name, ',');
+        std::getline(ss, latStr, ',');
+        std::getline(ss, lonStr, ',');
+        
+        lat = std::stod(latStr);
+        lon = std::stod(lonStr);
+        
+        // This stores the information in the programs memory by creating a Building object and adding it to the vector
+        buildings.push_back({name, lat, lon});
+    }
+
+    file.close();
+
+}
+
+
+
+//Function to display the building names
+void displayBuildings() {
+    std::cout << "Buildings on campus:\n";
+    for (const auto& building : buildings) {
+        std::cout << building.name << "\n";
+    }
+}
+
+//Part 2- Iplementing the menu 
+//Load and display the building data in the main function 
+int main() {
+    //load
+    loadBuildingData("locations.csv");
+
+    int choice = 0;
+
+    do {
+        std::cout << "\nMenu: \n";
+        std::cout << "1. Enter your location and destination \n";
+        std::cout << "2. View all available buildings\n"; 
+        std::cout << "3. Exit\n";
+        std::cout << "Enter your choice: ";
+        
+        
+        std::cin >> choice;
+
+    
+
+        switch (choice) {
+            case 1: {
+                std::string location, destination;
+                std::cout << "Enter your current location: ";
+                std::cin.ignore(); // To ignore leftover newline
+                std::getline(std::cin, location);
+                std::cout << "Enter your destination: ";
+                std::getline(std::cin, destination);
+                std::cout << "You are at " << location << " and your destination is " << destination << ".\n";
+                break;
+            }
+            case 2:
+                displayBuildings();
+                break;
+
+            case 3:
+                std::cout << "Exiting the program...\n";
+                break;
+            default:
+                std::cout << "Invalid choice. Please try again :/ \n";
+
+        }
+
+    } while (choice != 3);
+   
+
+    return 0;
+
+}
+```
 
 ## User Manual
 
